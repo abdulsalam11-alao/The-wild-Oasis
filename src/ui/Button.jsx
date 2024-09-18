@@ -47,7 +47,7 @@ const variations = {
     }
   `,
 };
-console.log(variations, sizes);
+
 const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
