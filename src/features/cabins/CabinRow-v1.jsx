@@ -51,7 +51,7 @@ const Discount = styled.div`
 `;
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabins } = useDeleteCabins();
-  const { createCabin } = useCreateCabin();
+  const { isCreating, createCabin } = useCreateCabin();
 
   const {
     name,
@@ -82,26 +82,24 @@ function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
       <div>
+        <button onClick={handleDuplicate} disabled={isCreating}>
+          <HiSquare2Stack />
+        </button>
         <Modal>
-          <Menus.Menu>
-            <Menus.Toggle id={CabinId} />
-            <Menus.List id={CabinId}>
-              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
-                Duplicate
-              </Menus.Button>
-              <Modal.open opens="edit">
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-              </Modal.open>
-              <Modal.open opens="delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-              </Modal.open>
-            </Menus.List>
-          </Menus.Menu>
-
+          <Modal.open opens="edit">
+            <button>
+              {" "}
+              <HiPencil />
+            </button>
+          </Modal.open>
           <Modal.window name="edit">
             <CreateCabinForm cabinToUpdate={cabin} />
           </Modal.window>
-
+          <Modal.open opens="delete">
+            <button disabled={isDeleting}>
+              <HiTrash />
+            </button>
+          </Modal.open>
           <Modal.window name="delete">
             <ConfirmDelete
               resourceName="cabins"
@@ -110,6 +108,16 @@ function CabinRow({ cabin }) {
             />
           </Modal.window>
         </Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={CabinId} />
+          <Menus.List id={CabinId}>
+            <Menus.Button icon={<HiSquare2Stack />}>Edit</Menus.Button>
+            <Menus.Button icon={<HiPencil />} onClick={handleDuplicate}>
+              Duplicate
+            </Menus.Button>
+            <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+          </Menus.List>
+        </Menus.Menu>
       </div>
     </Table.Row>
   );
